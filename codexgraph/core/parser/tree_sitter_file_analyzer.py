@@ -46,3 +46,16 @@ def ensure_language_lib(langs=list({LANG_GRAMMARS.keys()})):
 class InfraFileAnalyzer:
     def __init__(self):
         pass
+    
+
+def analyze_file(path:str langs=None):
+    p=Path(path)
+    if not p.exists():
+        raise FileNotFoundError()
+    #detect language
+    lang=detect_language_from_extension(p)
+    if not lang:
+        raise ValueError(f'Can not detect language by file extension from {p.suffix}')
+    langs_to_build=[lang]
+    language=ensure_language_lib(langs_to_build)
+    
